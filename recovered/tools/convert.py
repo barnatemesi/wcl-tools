@@ -247,7 +247,7 @@ def convert(e):
         return heal(e)
     if t == "resourcechange":
         return energize(e)
-    if t == "drain":
+    if t in ("drain", "leech"):
         return drain(e)
     if t == "absorbed":
         return absorbed(e)
