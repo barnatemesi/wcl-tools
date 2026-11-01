@@ -1,0 +1,10 @@
+# Allowlist: only the tools are tracked. Logs, data and credentials (.env) stay local.
+/*
+!/.gitignore
+!/LICENSE
+!/recovered/
+/recovered/*
+!/recovered/tools/
+/recovered/tools/.token-cache.json
+__pycache__/
+.DS_Store
