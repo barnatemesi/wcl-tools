@@ -8,9 +8,10 @@ rebuilding combat log files from uploaded reports, and tracking raiding activity
 | Folder | What it does | Docs |
 |---|---|---|
 | [`recovered/tools/`](recovered/tools/) | Rebuild `WoWCombatLog-*.txt` files from uploaded reports, archive all raids of a character, list reports and fights, and split, summarise, or edit logs. | [README](recovered/tools/README.md) |
+| [`guides/`](guides/) | Trash guides per zone (kill order, positioning, what hits the raid) and best-rotation comparisons of top vs median DPS parses, with the tools that build them. | [README](guides/tools/README.md) |
 | [`thunderstrike-stats/`](thunderstrike-stats/) | Weekly raiding guilds and estimated raiders on Thunderstrike-EU, with phase markers. Resumable collection, progress display, chart and CSV. | [README](thunderstrike-stats/README.md) |
 
-`thunderstrike-stats` reuses the API helper in `recovered/tools/wcl.py`, so keep the two folders in this layout.
+`thunderstrike-stats` and `guides/tools/fetch_rankings.py` reuse the API helper in `recovered/tools/wcl.py`, so keep the folders in this layout.
 
 ![Thunderstrike raiding trend](thunderstrike-stats/output/thunderstrike_raiding_trend.png)
 
