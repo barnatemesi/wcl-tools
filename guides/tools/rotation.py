@@ -1,10 +1,11 @@
 """Rotation breakdown per class / spec, bosses and trash separately, from raw/<code>.json dumps.
 
-usage: python3 guides/tools/rotation.py recovered/raw/*.json [--boss NAME] [--out guides/rotations]
+usage: python3 guides/tools/rotation.py recovered/raw/*.json [--boss NAME] [--names] [--out guides/rotations]
 
 Writes <out>/<zone>.md. Per spec: casts per minute and damage / healing share per ability, per-player DPS / HPS
 and cast-time usage, self-buff uptimes, debuff uptimes on the boss, the usual boss opener, and what changes on trash.
 --boss limits the boss half to fights whose name contains NAME (trash is always every trash pull).
+--names adds player names to the per-player tables; the guides in the repo are built without them.
 
 - Specs come from the WarcraftLogs icon (e.g. Mage-Arcane); when WCL has no spec, the guessed role is used instead
   (see trash_guide.roles).
@@ -181,7 +182,7 @@ def total(sts, key):
     return c
 
 
-def section(kind, sts, other):
+def section(kind, sts, other, show_names=False):
     """Markdown for one spec on bosses or trash; `other` is the same spec's stats for the other kind."""
     sts = {p: st for p, st in sts.items() if st["fights"]}
     if not sts:
@@ -204,11 +205,13 @@ def section(kind, sts, other):
             "%.0f%%" % (100 * casts[n] / max(sum(casts.values()), 1)) if casts[n] else "–",
             "%.0f%%" % (100 * out[n] / out_total) if out[n] else "–"))
 
-    rows += ["", "| Player | Pulls | %s | Active | Most cast |" % ("HPS" if healer else "DPS"), "|---|---|---|---|---|"]
+    who = lambda p: "| %s " % p if show_names else ""
+    rows += ["", "%s| Pulls | %s | Active | Most cast |" % (who("Player"), "HPS" if healer else "DPS"),
+             "%s|---|---|---|---|" % ("|---" if show_names else "")]
     for p, st in sorted(sts.items(), key=lambda kv: -sum(kv[1]["heal" if healer else "dmg"].values()) / kv[1]["alive"]):
         per_sec = sum(st["heal" if healer else "dmg"].values()) / (st["alive"] / 1000)
         top = ", ".join("%s %.1f" % (n, c / (st["alive"] / 60000)) for n, c in st["casts"].most_common(3))
-        rows.append("| %s | %d | %.0f | %.0f%% | %s |" % (p, st["fights"], per_sec, 100 * st["busy"] / st["alive"], top or "–"))
+        rows.append("%s| %d | %.0f | %.0f%% | %s |" % (who(p), st["fights"], per_sec, 100 * st["busy"] / st["alive"], top or "–"))
 
     def uptimes(key, floor):
         """Uptime per aura over the alive time of the players who used it at all."""
@@ -251,7 +254,7 @@ def section(kind, sts, other):
 
 def main():
     ap = argparse.ArgumentParser(usage=__doc__)
-    ap.add_argument("raw", nargs="+"); ap.add_argument("--boss")
+    ap.add_argument("raw", nargs="+"); ap.add_argument("--boss"); ap.add_argument("--names", action="store_true")
     ap.add_argument("--out", default=str(Path(__file__).resolve().parents[1] / "rotations"))
     a = ap.parse_args()
     data = collections.defaultdict(lambda: {"boss": collections.defaultdict(new_stats), "trash": collections.defaultdict(new_stats),
@@ -272,8 +275,8 @@ def main():
         for spec in specs:
             by_kind = {kind: {p: st for (sp, p), st in z[kind].items() if sp == spec} for kind in ("boss", "trash")}
             body += ["## %s" % spec, ""]
-            body += section("boss", by_kind["boss"], by_kind["trash"])
-            body += section("trash", by_kind["trash"], by_kind["boss"])
+            body += section("boss", by_kind["boss"], by_kind["trash"], a.names)
+            body += section("trash", by_kind["trash"], by_kind["boss"], a.names)
         path = out / (slug(zone) + (("-" + slug(a.boss)) if a.boss else "") + ".md")
         path.write_text("\n".join(body), encoding="utf-8")
         print("%s: %d specs" % (path, len(specs)))

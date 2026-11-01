@@ -91,7 +91,7 @@ and Intercept instead; both specs use Recklessness/*Bloodbath* less and skip Sap
 
 ## How to use this for your raid
 
-- Run `python3 guides/tools/rotation.py recovered/raw/*.json --boss shahraz` (from the repo root) and compare your players' casts/min,
+- Run `python3 guides/tools/rotation.py recovered/raw/*.json --boss shahraz --names --out <somewhere local>` (from the repo root) and compare your players' casts/min,
   active time and buff list against the tables in [50607.md](50607.md).
 - More bosses: `python3 guides/tools/fetch_rankings.py --encounter <id>` (≈1.5 h of API budget for all specs at 8 + 8), then
   `python3 guides/tools/best_rotation.py --encounter <id>`. Encounter ids are in the fetch script's docstring.

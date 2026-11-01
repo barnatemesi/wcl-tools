@@ -8,8 +8,6 @@
 !/recovered/tools/
 /recovered/tools/.token-cache.json
 !/guides/
-# Per-player DPS of raid members, stays local
-/guides/rotations/
 !/thunderstrike-stats/
 /thunderstrike-stats/data/
 /thunderstrike-stats/.venv/
