@@ -2,7 +2,7 @@
 
 usage: python3 rename_player.py <out_dir> <old name> <new name> [--guid OLD_GUID NEW_GUID] <log.txt> [<log.txt> ...]
 
-Names are the full log form, e.g. "Sarazein-Thunderstrike-EU". GUIDs look like Player-6409-04AF0032.
+Names are the full log form, e.g. "Name-Realm-EU". GUIDs look like Player-1234-0ABCDEF0.
 The originals are never modified; out_dir must not be the folder the logs are in.
 """
 import sys

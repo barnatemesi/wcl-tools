@@ -30,6 +30,7 @@ Run everything from `wow-tbc-logs/recovered/` as `python3 tools/<script>.py ...`
 | `summary.py` | Damage / effective-healing per player for each pull in a combat log (works on real logs too). |
 | `split_log.py` | Split any combat log per zone, or per boss pull with `--encounters` (`<date>_<boss>_<n>_kill|wipe|incomplete.txt`). |
 | `rename_player.py` | Copy logs to a new folder with a player's name (and optionally GUID, `--guid OLD NEW`) replaced. Originals untouched. |
+| `archive_character.py` | Archive every raid a character took part in, one report per raid night. Paced to the API budget and resumable. `--dry-run` previews the nights; `--keep-raw` keeps the JSON dumps. |
 | `raid_time.py` | Start, end and duration of each log. `--shift MINUTES OUT_DIR` writes copies with every timestamp (and the file name) shifted; negative = earlier. Originals untouched. |
 | `compare_format.py` | Compare field counts per event type between a real log and a rebuilt one. |
 | `wcl.py` | Shared helper (credentials, token, GraphQL with retries); not run directly. |
@@ -40,6 +41,7 @@ Run everything from `wow-tbc-logs/recovered/` as `python3 tools/<script>.py ...`
 python3 tools/recover.py --links ../wow-tbc-bt-links.md          # everything in the links file
 python3 tools/recover.py https://fresh.warcraftlogs.com/reports/ABC123xyz
 python3 tools/list_fights.py ABC123xyz
+python3 tools/archive_character.py MyCharacter --dry-run
 python3 tools/list_reports.py --guild "My Guild" --server thunderstrike --zone 534 --links >> ../hyjal-links.md
 python3 tools/split_log.py black-temple/WoWCombatLog-091326_203307.txt bt-pulls --encounters
 python3 tools/summary.py bt-pulls/9-13-2026_the-illidari-council_4_kill.txt --top 5
