@@ -1,4 +1,4 @@
-# Allowlist: only the tools and stats code are tracked. Logs, data and credentials (.env) stay local.
+# Allowlist: only the tools, guides and stats code are tracked. Logs, data and credentials (.env) stay local.
 /*
 !/.gitignore
 !/LICENSE
@@ -7,6 +7,7 @@
 /recovered/*
 !/recovered/tools/
 /recovered/tools/.token-cache.json
+!/guides/
 !/thunderstrike-stats/
 /thunderstrike-stats/data/
 /thunderstrike-stats/.venv/
